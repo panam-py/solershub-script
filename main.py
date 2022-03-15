@@ -31,24 +31,26 @@ def birthday_mailer():
                 print("AN ERROR OCCURED WHILE SENDING MAIL", e)
 
 def details_saver():
-    users = list(db['instructors'].find())
-    main_users = []
-    for user in users:
-        keys = user.keys()
-        new_user = {}
-        for key in keys:
-            if key != 'password' and key != 'passwordChangeDate' and key != 'verifyHash' and key != '_id' and key != '__v':
-                new_user[key] = user[key]
-        main_users.append(new_user)
-    
-    csv_columns = [key for key in main_users[0].keys()]
-    with open(r'./details.csv', 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
-        writer.writeheader()
-        for data in main_users:
-            writer.writerow(data)
+    users = list(db['users'].find())
+    if len(users) > 0:
+        main_users = []
+        for user in users:
+            keys = user.keys()
+            new_user = {}
+            for key in keys:
+                if key != 'password' and key != 'passwordChangeDate' and key != 'verifyHash' and key != '_id' and key != '__v' and key != 'ref' and key != 'referredBy':
+                    new_user[key] = user[key]
+            main_users.append(new_user)
+        
+        print(main_users[0])
+        csv_columns = [key for key in main_users[0].keys()]
+        with open(r'./details.csv', 'w') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+            writer.writeheader()
+            for data in main_users:
+                writer.writerow(data)
 
 
 
-birthday_mailer()
+# birthday_mailer()
 details_saver()
