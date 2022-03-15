@@ -52,5 +52,5 @@ def details_saver():
 
 
 
-# birthday_mailer()
+birthday_mailer()
 details_saver()
